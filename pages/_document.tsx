@@ -6,13 +6,18 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
+import { CssBaseline } from '@nextui-org/react';
 
 const APP_NAME = 'next-pwa3';
 const APP_DESCRIPTION = 'This is an example of using next-pwa plugin';
 
 export default class extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    return await Document.getInitialProps(ctx);
+    const initialProps = await Document.getInitialProps(ctx);
+    return {
+      ...initialProps,
+      styles: React.Children.toArray([initialProps.styles]),
+    };
   }
 
   render() {
@@ -40,6 +45,8 @@ export default class extends Document {
           />
           <link rel="manifest" href="/manifest.json" />
           <link rel="shortcut icon" href="/favicon.ico" />
+
+          {CssBaseline.flush()}
         </Head>
         <body>
           <Main />
