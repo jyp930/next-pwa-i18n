@@ -1,14 +1,18 @@
 import React from 'react';
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import '../styles/globals.css';
+
+/** SEO */
+import { DefaultSeo } from 'next-seo';
+import SEO from '../seo.config';
+
+/** Next UI */
 import { NextUIProvider, createTheme } from '@nextui-org/react';
 import { appWithTranslation } from 'next-i18next';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-
 const lightTheme = createTheme({
   type: 'light',
 });
-
 const darkTheme = createTheme({
   type: 'dark',
 });
@@ -23,6 +27,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
     }}
   >
     <NextUIProvider>
+      <DefaultSeo {...SEO} />
       <Component {...pageProps} />
     </NextUIProvider>
   </NextThemesProvider>
