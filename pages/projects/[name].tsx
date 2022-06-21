@@ -5,9 +5,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/router';
+import { Project } from '../../types/project';
 import Test from '../../components/containers/projects/data/test/Test';
 
-const Project = ({ projectName }: { projectName: string }) => {
+const Project = ({ projectName }: { projectName: Project['name'] }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
 
@@ -45,7 +46,7 @@ export async function getStaticPaths() {
 
   return {
     paths: projects
-      .map((project: { name: string }) => [
+      .map((project: Project) => [
         { params: { name: project.name } },
         { params: { name: project.name }, locale: 'en' },
       ])
@@ -58,7 +59,7 @@ export async function getStaticProps({
   params,
   locale,
 }: {
-  params: { name: string };
+  params: { name: Project['name'] };
   locale: 'ko' | 'en';
 }) {
   return {

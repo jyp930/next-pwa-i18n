@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import * as fs from 'fs';
+import { Project } from '../../../types/project';
 
-type Data = { name: string }[];
+type Data = Project[];
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
