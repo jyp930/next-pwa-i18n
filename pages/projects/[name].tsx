@@ -1,4 +1,4 @@
-import React from 'react';
+import fs from 'fs';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -40,9 +40,18 @@ const Project = ({ projectName }: { projectName: Project['name'] }) => {
 export default Project;
 
 export async function getStaticPaths() {
-  const projects = await (
-    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/ko/projects`)
-  ).json();
+  const projectNames = fs.readdirSync('components/containers/projects/data');
+
+  const projects = (
+    await Promise.all(
+      projectNames.map(
+        (projectName) =>
+          import(
+            `/components/containers/projects/data/${projectName}/ko/meta.json`
+          )
+      )
+    )
+  ).map((object, index) => ({ name: projectNames[index], ...object.default }));
 
   return {
     paths: projects
